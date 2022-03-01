@@ -22,3 +22,14 @@ class Solution:
                 head = head.next
 
         return dummy.next
+
+
+t = ListNode(1)
+t.next = ListNode(2)
+t.next.next = ListNode(6)
+t.next.next.next = ListNode(3)
+
+t = Solution().removeElements(t, 6)
+while t:
+    print(t.val)
+    t = t.next
