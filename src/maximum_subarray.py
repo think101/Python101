@@ -2,7 +2,7 @@ from typing import List
 
 
 class Solution:
-    def maxSubArray0(self, nums: List[int]) -> int:
+    def maxSubArray(self, nums: List[int]) -> int:
         dp = [0] * len(nums)
         dp[0] = nums[0]
         res = nums[0]
