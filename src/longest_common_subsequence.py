@@ -10,3 +10,9 @@ class Solution:
 
         return dp[row-1][col-1]
 
+
+t = Solution()
+print(t.longestCommonSubsequence("abcde", "ace"))
+print(t.longestCommonSubsequence("abc", "abc"))
+print(t.longestCommonSubsequence("abc", "def"))
+
