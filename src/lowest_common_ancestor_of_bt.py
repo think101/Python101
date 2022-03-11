@@ -39,9 +39,36 @@ class Solution:
 
         return None
 
+    def lowestCommonAncestor_TLE(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if root.val == p.val or root.val == q.val:
+            return root
+
+        if self.findNode(root.left, p) and self.findNode(root.left, q):
+            return self.lowestCommonAncestor(root.left, p, q)
+        elif self.findNode(root.right, p) and self.findNode(root.right, q):
+            return self.lowestCommonAncestor(root.right, p, q)
+        else:
+            return root
+
+    def findNode(self, root: 'TreeNode', p: 'TreeNode') -> bool:
+        if root is None:
+            return False
+
+        if root.val == p.val:
+            return True
+
+        return self.findNode(root.left, p) or self.findNode(root.right, p)
+
 
 t = TreeNode(3)
 t.left = TreeNode(5)
 t.right = TreeNode(1)
+t.left.left = TreeNode(6)
+t.left.right = TreeNode(2)
+t.left.right.left = TreeNode(7)
+t.left.right.right = TreeNode(4)
+t.right.left = TreeNode(0)
+t.right.right = TreeNode(8)
 
-print(Solution().lowestCommonAncestor(t, t.left, t.right).val)
+print(Solution().lowestCommonAncestor(t, t.right, t.left.right.right).val)
+print(Solution().lowestCommonAncestor_TLE(t, t.right, t.left.right.right).val)
