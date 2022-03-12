@@ -10,8 +10,31 @@ class TreeNode:
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        p_path = self.findPath(root, p)
-        q_path = self.findPath(root, q)
+        return self.findNode(root, p, q)[1]
+
+    def findNode(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'List':
+        if root is None:
+            return [False, None]
+
+        m = False
+        if root.val in [p.val, q.val]:
+            m = True
+
+        left = self.findNode(root.left, p, q)
+        right = self.findNode(root.right, p, q)
+
+        if left[1] is not None:
+            return [True, left[1]]
+        elif right[1] is not None:
+            return [True, right[1]]
+        elif (m and left[0]) or (m and right[0]) or (right[0] and left[0]):
+            return [True, root]
+
+        return [left[0] or right[0] or m, None]
+
+    def lowestCommonAncestorV1(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        p_path = self.findPathV1(root, p)
+        q_path = self.findPathV1(root, q)
 
         i = 0
         while True:
@@ -20,7 +43,7 @@ class Solution:
             else:
                 i += 1
 
-    def findPath(self, root: 'TreeNode', p: 'TreeNode') -> 'List':
+    def findPathV1(self, root: 'TreeNode', p: 'TreeNode') -> 'List':
         if root is None:
             return None
 
@@ -43,21 +66,21 @@ class Solution:
         if root.val == p.val or root.val == q.val:
             return root
 
-        if self.findNode(root.left, p) and self.findNode(root.left, q):
+        if self.findNodeTLE(root.left, p) and self.findNodeTLE(root.left, q):
             return self.lowestCommonAncestor(root.left, p, q)
-        elif self.findNode(root.right, p) and self.findNode(root.right, q):
+        elif self.findNodeTLE(root.right, p) and self.findNodeTLE(root.right, q):
             return self.lowestCommonAncestor(root.right, p, q)
         else:
             return root
 
-    def findNode(self, root: 'TreeNode', p: 'TreeNode') -> bool:
+    def findNodeTLE(self, root: 'TreeNode', p: 'TreeNode') -> bool:
         if root is None:
             return False
 
         if root.val == p.val:
             return True
 
-        return self.findNode(root.left, p) or self.findNode(root.right, p)
+        return self.findNodeTLE(root.left, p) or self.findNodeTLE(root.right, p)
 
 
 t = TreeNode(3)
