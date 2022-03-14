@@ -3,6 +3,7 @@ from typing import List
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
+        # dp[i] means the max index we can reach from index i
         dp = [0] * len(nums)
         dp[0] = nums[0]
 
