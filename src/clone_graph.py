@@ -22,8 +22,6 @@ class Solution:
         visited = []
         bfs = [node]
 
-
-
         while bfs:
             n = bfs.pop(0)
             visited.append(n.val)

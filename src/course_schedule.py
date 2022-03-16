@@ -38,6 +38,5 @@ class Solution:
 t = Solution()
 print(t.canFinish(2, [[1,0]]))
 print(t.canFinish(2, [[1,0],[0,1]]))
-print(t.canFinish(2, [[1,0],[0,1],[0,0]]))
 print(t.canFinish(6, [[1,0],[2,1],[3,2]]))
-
+print(t.canFinish(6, [[1,0],[2,1],[3,2],[4,3],[5,4],[6,5]]))
