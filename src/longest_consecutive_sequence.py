@@ -29,6 +29,18 @@ class Solution:
 
         return result
 
+    def longestConsecutiveV2(self, nums: List[int]) -> int:
+        nums = set(nums)
+
+        best = 0
+        for i in nums:
+            if i-1 not in nums:
+                x = i
+                while x+1 in nums:
+                    x += 1
+                best = max(best, x-i+1)
+        return best
+
 
 t = Solution()
 print(t.longestConsecutive([100, 4, 200, 1, 3, 2]))
