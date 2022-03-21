@@ -46,3 +46,4 @@ print(t.alienOrder(["z", "x"]))
 print(t.alienOrder(["z", "x", "z"]))
 print(t.alienOrder(["z", "x", "z", "x"]))
 print(t.alienOrder(["ac", "ab", "zc", "zb"]))
+
