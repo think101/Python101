@@ -1,9 +1,9 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        letters = "abcdefghijklmnopqrstuvwxyz"
-        d = dict.fromkeys(letters, 0)
+        d = {}
 
         for c in s:
+            d.setdefault(c, 0)
             d[c] += 1
 
         for c in t:
@@ -11,8 +11,8 @@ class Solution:
                 return False
             d[c] -= 1
 
-        for c in letters:
-            if d[c] != 0:
+        for k in d:
+            if d[k] != 0:
                 return False
 
         return True
