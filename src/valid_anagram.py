@@ -3,16 +3,16 @@ class Solution:
         letters = "abcdefghijklmnopqrstuvwxyz"
         d = dict.fromkeys(letters, 0)
 
-        for i in range(len(s)):
-            d[s[i:i + 1]] += 1
+        for c in s:
+            d[c] += 1
 
-        for i in range(len(t)):
-            if t[i:i+1] not in d:
+        for c in t:
+            if c not in d:
                 return False
-            d[t[i:i + 1]] -= 1
+            d[c] -= 1
 
-        for i in range(len(letters)):
-            if d[letters[i:i + 1]] != 0:
+        for c in letters:
+            if d[c] != 0:
                 return False
 
         return True
