@@ -8,20 +8,15 @@ class TreeNode:
         self.right = right
 
 
-res = float('-inf')
-
-
 class Solution:
 
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        global res
-        res = float('-inf')
+        res = root.val
 
-        def helper(node: Optional[TreeNode]) -> int:
-            global res
-
+        def helper(node):
+            nonlocal res
             if not node:
-                return float('-inf')
+                return 0
 
             l, r = max(0, helper(node.left)), max(0, helper(node.right))
             res = max(res, node.val + l + r)
@@ -29,7 +24,6 @@ class Solution:
             return max(l, r) + node.val
 
         helper(root)
-
         return res
 
 
@@ -37,3 +31,6 @@ t = TreeNode(1)
 t.left = TreeNode(2)
 t.right = TreeNode(3)
 print(Solution().maxPathSum(t))
+
+
+#https://stackoverflow.com/questions/11987358/why-nested-functions-can-access-variables-from-outer-functions-but-are-not-allo
