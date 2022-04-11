@@ -23,6 +23,8 @@ class WordDictionary:
 
             for i in range(len(w)):
                 if w[i:i + 1] == '.':
+                    if i == len(w) - 1:
+                        return True
                     for key in cur.children:
                         if dfs(cur.children[key], w[i + 1:]):
                             return True
@@ -42,7 +44,7 @@ t = WordDictionary()
 t.addWord("bad")
 t.addWord("dad")
 t.addWord("mad")
-print(t.search("pad"))
-print(t.search("bad"))
-print(t.search(".ad"))
+#print(t.search("pad"))
+#print(t.search("bad"))
+#print(t.search(".ad"))
 print(t.search("b.."))
