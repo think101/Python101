@@ -23,9 +23,9 @@ class WordDictionary:
 
             for i in range(len(w)):
                 if w[i:i + 1] == '.':
-                    if i == len(w) - 1:
-                        return True
                     for key in cur.children:
+                        if i == len(w) - 1 and cur.children[key].is_word:
+                            return True
                         if dfs(cur.children[key], w[i + 1:]):
                             return True
                     return False
@@ -41,10 +41,9 @@ class WordDictionary:
 
 
 t = WordDictionary()
-t.addWord("bad")
-t.addWord("dad")
-t.addWord("mad")
+t.addWord("a")
+t.addWord("a")
 #print(t.search("pad"))
 #print(t.search("bad"))
 #print(t.search(".ad"))
-print(t.search("b.."))
+print(t.search("a."))
