@@ -46,6 +46,9 @@ class Solution:
 
         def copyVisited(visited):
             new_v = [[0] * col for _ in range(row)]
+            for a in range(row):
+                for b in range(col):
+                    new_v[a][b] = visited[a][b]
             return new_v
 
         def dfs(visited, i, j, str):
@@ -65,17 +68,17 @@ class Solution:
             dfs(copyVisited(visited), i, j - 1, str)
             dfs(copyVisited(visited), i, j + 1, str)
 
-        v = [[0] * col for _ in range(row)]
         for i in range(row):
             for j in range(col):
+                v = [[0] * col for _ in range(row)]
                 dfs(v, i, j, "")
 
         return list(res)
 
 
 t = Solution()
-#board = [["o", "a"], ["e", "t"]]
-#words = ["oa", "oet", "oat", "et", "etao", "tao", "abc"]
-board = [["a", "a"]]
-words = ["aaa"]
+# board = [["o", "a"], ["e", "t"]]
+# words = ["oa", "oet", "oat", "et", "etao", "tao", "abc"]
+board = [["a", "b", "c"], ["a", "e", "d"], ["a", "f", "g"]]
+words = ["abcdefg", "gfedcbaaa", "eaabcdgfa", "befa", "dgc", "ade"]
 print(t.findWords(board, words))
