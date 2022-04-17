@@ -2,7 +2,25 @@ from typing import List
 
 
 class Solution:
+
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        res = []
+        for i in range(len(intervals)):
+            if newInterval[1] < intervals[i][0]:
+                res.append(newInterval)
+                return res + intervals[i:]        # return here, also add all remain elems into res list
+            elif newInterval[0] > intervals[i][1]:
+                res.append(intervals[i])
+            else:
+                newInterval = [min(newInterval[0], intervals[i][0]), max(newInterval[1], intervals[i][1])]
+
+        res.append(newInterval)
+        return res
+
+
+
+    def insert2(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
 
         def isOverlap(interval1: List[int], interval2: List[int]):
             if interval1[0] > interval2[1] or interval1[1] < interval2[0]:
