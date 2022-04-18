@@ -3,7 +3,7 @@ from typing import List
 
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort(key=lambda x:x[0])
+        intervals.sort(key=lambda x: x[0])
 
         res = []
 
@@ -13,8 +13,8 @@ class Solution:
             start = intervals[i][0]
             end = intervals[i][1]
 
-            while i+1 < len(intervals) and end >= intervals[i+1][0]:
-                end = max(intervals[i+1][1], end)
+            while i + 1 < len(intervals) and end >= intervals[i + 1][0]:
+                end = max(intervals[i + 1][1], end)
                 i += 1
 
             res.append([start, end])
