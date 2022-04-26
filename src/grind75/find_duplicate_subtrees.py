@@ -9,7 +9,29 @@ class TreeNode:
 
 
 class Solution:
+
     def findDuplicateSubtrees(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
+        res = []
+        d = {}
+
+        def helper(root):
+            if not root:
+                return "#"
+
+            # must be pre-order traversal or post-order traversal
+            s = str(root.val) + "," + helper(root.left) + "," + helper(root.right)
+            if s in d:
+                d[s] += 1
+                res.append(root) if d[s] == 2 else None
+            else:
+                d[s] = 1
+
+            return s
+
+        helper(root)
+        return res
+
+    def findDuplicateSubtrees_Wrong(self, root: Optional[TreeNode]) -> List[Optional[TreeNode]]:
         result = []
 
         def sameTree(root1, root2):
@@ -44,6 +66,15 @@ class Solution:
         return result
 
 
+def print_tree(root):
+    if not root:
+        return
+
+    print(root.val, end=" ")
+    print_tree(root.left)
+    print_tree(root.right)
+
+
 if __name__ == "__main__":
     root = TreeNode(1)
     root.left = TreeNode(2)
@@ -55,4 +86,7 @@ if __name__ == "__main__":
     root.right.left.left = TreeNode(4)
 
     solution = Solution()
-    print(solution.findDuplicateSubtrees(root))
+
+    for node in solution.findDuplicateSubtrees(root):
+        print_tree(node)
+        print()
