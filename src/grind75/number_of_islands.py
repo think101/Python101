@@ -11,20 +11,20 @@ class Solution:
                 if grid[i][j] == "1":
                     ones.append([i, j])
 
-        def bfs(one):
+        def dfs(one):
             i, j = one[0], one[1]
             res = 0
             if grid[i][j] == "1":
                 res += 1
                 grid[i][j] = "0"
 
-                bfs([i-1, j]) if i-1 >= 0 else None
-                bfs([i+1, j]) if i+1 < row else None
-                bfs([i, j-1]) if j-1 >= 0 else None
-                bfs([i, j+1]) if j+1 < col else None
+                dfs([i-1, j]) if i-1 >= 0 else None
+                dfs([i+1, j]) if i+1 < row else None
+                dfs([i, j-1]) if j-1 >= 0 else None
+                dfs([i, j+1]) if j+1 < col else None
             return res
 
-        return sum(bfs(one) for one in ones)
+        return sum(dfs(one) for one in ones)
 
 
 if __name__ == "__main__":
