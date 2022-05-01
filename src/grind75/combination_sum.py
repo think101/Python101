@@ -13,7 +13,7 @@ class Solution:
                 elif i - j > 0 and dp[i - j]:
                     for l in dp[i - j]:
                         if l:
-                            ll = sorted(l + [j])
+                            ll = sorted(l + [j])  # need to create a new list and sort it
                             if ll not in res:
                                 res.append(ll)
 
