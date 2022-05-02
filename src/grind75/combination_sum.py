@@ -35,7 +35,7 @@ class Solution:
                     break
                 cur.append(candidates[j])
                 dfs(target - candidates[j], j, cur)
-                cur.pop(-1)
+                cur.pop()
 
         dfs(target, 0, [])
 
