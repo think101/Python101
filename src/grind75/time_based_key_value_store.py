@@ -3,24 +3,34 @@ class TimeMap:
     def __init__(self):
         self.d = {}
 
-
     def set(self, key: str, value: str, timestamp: int) -> None:
         if key not in self.d:
-            self.d.setdefault(key, {})
-        self.d[key][timestamp] = value
+            self.d.setdefault(key, [])
+        self.d[key].append([timestamp, value])
 
     def get(self, key: str, timestamp: int) -> str:
-        if key in self.d and timestamp in self.d[key]:
-            return self.d[key][timestamp]
-
-        l = list(self.d[key]) + [timestamp]
-        l.sort()
-        i = l.index((timestamp))
-
-        if i == 0:
+        if key not in self.d:
             return ""
 
-        return self.d[key][l[i - 1]]
+        length = len(self.d[key])
+        l, r = 0, length - 1
+
+        recent = -1
+        while l <= r:
+            m = int((l + r + 1) / 2)
+            if self.d[key][m][0] == timestamp:
+                return self.d[key][m][1]
+            elif self.d[key][m][0] > timestamp:
+                r = m - 1
+            else:
+                recent = max(l, recent)
+                l = m + 1
+
+        if recent >= 0:
+            return self.d[key][recent][1]
+
+        return ""
+
 
 # Your TimeMap object will be instantiated and called as such:
 # obj = TimeMap()
