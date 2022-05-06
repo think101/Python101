@@ -15,21 +15,18 @@ class TimeMap:
         length = len(self.d[key])
         l, r = 0, length - 1
 
-        recent = -1
+        res = ""
         while l <= r:
-            m = int((l + r + 1) / 2)
+            m = (l + r) // 2
             if self.d[key][m][0] == timestamp:
                 return self.d[key][m][1]
             elif self.d[key][m][0] > timestamp:
                 r = m - 1
             else:
-                recent = max(m, recent)
+                res = self.d[key][m][1]
                 l = m + 1
 
-        if recent >= 0:
-            return self.d[key][recent][1]
-
-        return ""
+        return res
 
 
 # Your TimeMap object will be instantiated and called as such:
