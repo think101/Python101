@@ -23,7 +23,7 @@ class TimeMap:
             elif self.d[key][m][0] > timestamp:
                 r = m - 1
             else:
-                recent = max(l, recent)
+                recent = max(m, recent)
                 l = m + 1
 
         if recent >= 0:
