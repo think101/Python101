@@ -9,6 +9,30 @@ class Solution:
             if a[0] not in d:
                 d.setdefault(a[0], [])
 
+            merged = a[1:]
+            for i in range(1, len(a)):
+                for j in range(len(d[a[0]])):
+                    if d[a[0]][j] and a[i] in d[a[0]][j]:
+                        merged = merged + d[a[0]][j]
+                        d[a[0]][j] = None
+
+            d[a[0]].append(merged)
+
+        res = []
+        for name in d:
+            for emails in d[name]:
+                if emails:
+                    res.append([name] + sorted(set(emails)))
+
+        return res
+
+    def accountsMerge_wrong(self, accounts: List[List[str]]) -> List[List[str]]:
+        d = {}
+
+        for a in accounts:
+            if a[0] not in d:
+                d.setdefault(a[0], [])
+
             merged = False
             for i in range(1, len(a)):
                 for j in range(len(d[a[0]])):
