@@ -2,7 +2,45 @@ from typing import List
 
 
 class Solution:
-    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+    def accountsMerge_dfs_TLE(self, accounts: List[List[str]]) -> List[List[str]]:
+        # email to accounts indexes
+        graph = {}
+
+        for i in range(len(accounts)):
+            for j in range(1, len(accounts[i])):
+                if accounts[i][j] not in graph:
+                    graph.setdefault(accounts[i][j], [])
+
+                graph[accounts[i][j]].append(i)
+
+        visited = [False] * len(accounts)
+
+        def dfs(email, li):
+            if False not in visited:
+                return []
+
+            for i in graph[email]:
+                if not visited[i]:
+                    name = accounts[i][0]
+
+                    visited[i] = True
+                    if not li:
+                        li = [name]
+                    li = li + accounts[i][1:]
+                    for j in range(1, len(accounts[i])):
+                        li = li + dfs(accounts[i][j], li)[1:]
+
+            return li
+
+        res = []
+        for email in graph:
+            li = dfs(email, [])
+            if li:
+                res.append(li[0:1] + sorted(set(li[1:])))
+
+        return res
+
+    def accountsMerge_slow(self, accounts: List[List[str]]) -> List[List[str]]:
         d = {}
 
         for a in accounts:
