@@ -2,6 +2,40 @@ from typing import List
 
 
 class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        # email to accounts indexes
+        graph = {}
+
+        for i in range(len(accounts)):
+            for j in range(1, len(accounts[i])):
+                if accounts[i][j] not in graph:
+                    graph.setdefault(accounts[i][j], [])
+
+                graph[accounts[i][j]].append(i)
+
+        visited = [False] * len(accounts)
+
+        def dfs(i, s):
+            if not visited[i]:
+                name = accounts[i][0]
+
+                visited[i] = True
+                for j in range(1, len(accounts[i])):
+                    s.add(accounts[i][j])
+                    for neighbor in graph[accounts[i][j]]:
+                        dfs(neighbor, s)
+
+        res = []
+        for i, account in enumerate(accounts):
+            if visited[i]:
+                continue
+
+            name, emails = account[0], set()
+            dfs(i, emails)
+            res.append([name] + sorted(emails))
+
+        return res
+
     def accountsMerge_dfs_TLE(self, accounts: List[List[str]]) -> List[List[str]]:
         # email to accounts indexes
         graph = {}
