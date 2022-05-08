@@ -19,16 +19,17 @@ class Solution:
                 return True
 
             for i in range(len(nums)):
-                if target - nums[i] > 0:
-                    return findTarget(nums[:i - 1] + nums[i + 1:], target - nums[i])
+                if target - nums[i] > 0 and findTarget(nums[:i] + nums[i + 1:], target - nums[i]):
+                    return True
 
             return False
 
-        return findTarget(nums[:m - 1] + nums[m + 1:], s // 2 - nums[m])
+        return findTarget(nums[:m] + nums[m + 1:], s // 2 - nums[m])
 
 
 if __name__ == "__main__":
     s = Solution()
-    print(s.canPartition([1, 5, 11, 5]))
-    print(s.canPartition([1, 2, 3, 5]))
-    print(s.canPartition([2, 2, 3, 5]))
+    # print(s.canPartition([1, 5, 11, 5]))
+    # print(s.canPartition([1, 2, 3, 5]))
+    # print(s.canPartition([2, 2, 3, 5]))
+    print(s.canPartition([1, 3, 4, 4]))
