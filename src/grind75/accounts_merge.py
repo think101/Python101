@@ -31,7 +31,7 @@ class Solution:
                 continue
 
             name, emails = account[0], set()
-            dfs(i, emails)
+            dfs(i, emails)                       # not required to return set
             res.append([name] + sorted(emails))
 
         return res
