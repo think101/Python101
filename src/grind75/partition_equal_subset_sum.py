@@ -18,12 +18,15 @@ class Solution:
         dp[0] = True
 
         for n in nums:
+            t = []
             for i in range(0, s + 1):
                 if dp[i] and i + n <= s + 1:
-                    dp[i + n] = True
+                    t.append(i + n)
+                    if i + n == s // 2:
+                        return True
 
-                if dp[s // 2]:
-                    return True
+            for i in t:
+                dp[i] = True
 
         return False
 
