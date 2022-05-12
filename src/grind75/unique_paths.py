@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import cache
 
 
 class Solution:
@@ -18,7 +18,7 @@ class Solution:
 
     def uniquePaths_DP(self, m: int, n: int) -> int:
 
-        @lru_cache(maxsize=None)
+        @cache
         def dp(i, j):
             if i == 0 and j == 0:
                 return 1
