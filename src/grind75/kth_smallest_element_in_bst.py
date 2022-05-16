@@ -18,6 +18,21 @@ class Solution:
 
         return inorder(root)[k-1]
 
+    def kthSmallest_count(self, root: Optional[TreeNode], k: int) -> int:
+
+        def count(root):
+            if not root:
+                return 0
+            return count(root.left) + 1 + count(root.right)
+
+        left = count(root.left)
+        if left == k - 1:
+            return root.val
+        elif left > k - 1:
+            return self.kthSmallest(root.left, k)
+        else:
+            return self.kthSmallest(root.right, k - 1 - left)
+
 
 if __name__ == "__main__":
     root = TreeNode(3)
@@ -26,4 +41,6 @@ if __name__ == "__main__":
     root.left.right = TreeNode(2)
 
     print(Solution().kthSmallest(root, 1))
+    print(Solution().kthSmallest_count(root, 1))
     print(Solution().kthSmallest(root, 2))
+    print(Solution().kthSmallest_count(root, 2))
