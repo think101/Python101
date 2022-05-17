@@ -1,13 +1,10 @@
-from heapq import heapify, heappush, heappop
+from heapq import heappush, heappop
 
 
 class MedianFinder:
 
     def __init__(self):
-        self.min_q = []
-        heapify(self.min_q)
-        self.max_q = []
-        heapify(self.max_q)
+        self.min_q, self.max_q = [], []
 
     def addNum(self, num: int) -> None:
         heappush(self.max_q, num * -1)
