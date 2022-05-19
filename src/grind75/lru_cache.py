@@ -1,4 +1,5 @@
 class Node:
+
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -10,67 +11,57 @@ class LRUCache:
     def __init__(self, capacity: int):
         self.d = {}
         self.c = capacity
-        self.left = None
-        self.right = None
+        self.left = Node(0, 0)
+        self.right = Node(0, 0)
+        self.left.next, self.right.prev = self.right, self.left
 
-    def update_lru(self, key: int):
-        t = self.left
-        while t and t.key != key:
-            t = t.next
+    def remove(self, key):
+        n = self.d[key]
+        n.prev.next = n.next
+        n.next.prev = n.prev
+        n.next = None
+        n.prev = None
 
-        if t.prev:
-            t.prev.next = t.next
-        if t.next and t.next != self.right:
-            t.next.prev = t.prev
+    def add(self, key):
+        n = self.d[key]
+        n.prev = self.right.prev
+        n.next = self.right
+        self.right.prev.next = n
+        self.right.prev = n
 
-        self.right.next = t
-        t.prev = self.right
-        t.next = None
-        self.right = t
+    def delete(self, key):
+        self.remove(key)
+        self.d.pop(key, None)
 
     def get(self, key: int) -> int:
-        if not self.d or key not in self.d:
+        if key not in self.d:
             return -1
 
-        self.update_lru(key)
+        self.remove(key)
+        self.add(key)
 
-        return self.d[key]
+        return self.d[key].value
 
     def put(self, key: int, value: int) -> None:
         if key in self.d:
-            self.d[key] = value
-            self.update_lru(key)
+            self.d[key].value = value
+            self.remove(key)
+            self.add(key)
+            return
 
-        if len(self.d) < self.c:
-            self.d[key] = value
+        self.d[key] = Node(key, value)
+        self.add(key)
 
-            if not self.left:
-                self.left = Node(key, value)
-                self.right = self.left
-            else:
-                self.right.next = Node(key, value)
-                self.right.next.prev = self.right
-                self.right = self.right.next
-        else:
-            self.d.pop(self.left.key, None)
-            self.d[key] = value
-
-            self.right.next = Node(key, value)
-            self.right.next.prev = self.right
-            self.right = self.right.next
-
-            if self.c == 1:
-                self.left = self.right
-                self.left.prev = None
-            else:
-                self.left.next.prev = None
-                self.left = self.left.next
+        if len(self.d) > self.c:
+            self.delete(self.left.next.key)
 
 
 t = LRUCache(2)
-t.put(1, 1)
-t.put(2, 2)
+print(t.get(2))
+t.put(2, 6)
 print(t.get(1))
-t.put(3, 3)
+t.put(1, 5)
+t.put(1, 2)
+print(t.get(1))
 print(t.get(2))
 
