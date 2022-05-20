@@ -14,19 +14,40 @@ class Codec:
         :rtype: str
         """
 
-        def inorder(root):
-            if not root:
-                return "n"
+        if not root:
+            return ""
 
-            return inorder(root.left) + "_" + str(root.val) + "_" + inorder(root.right)
+        res = ""
+        q = [root]
 
-        def preorder(root):
-            if not root:
-                return "n"
+        while q:
+            if all(x == "n" for x in q):
+                break
 
-            return str(root.val) + "_" + preorder(root.left) + "_" + preorder(root.right)
+            for i in range(len(q)):
+                node = q.pop(0)
+                if node == "n":
+                    res += "n_"
+                    q.append("n")
+                    q.append("n")
+                    continue
 
-        return preorder(root) + "|" + inorder(root)
+                res += str(node.val)
+                res += "_"
+
+                if node.left:
+                    q.append(node.left)
+                else:
+                    q.append("n")
+
+                if node.right:
+                    q.append(node.right)
+                else:
+                    q.append("n")
+
+            res += "|"
+
+        return res
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -34,32 +55,27 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        print(data)
+        #print(data)
 
-        i = data.index('|')
-        preorder = data[0:i]
-        inorder = data[i + 1:]
+        if not data:
+            return None
 
-        p = [x for x in preorder.split('_') if x]
-        i = [x for x in inorder.split('_') if x]
+        levels = [x for x in data.split("|") if x]
 
-        def construct_tree(p_order, i_order):
-            if not p_order or len(p_order) == 1 and p_order[0] == "n":
-                return None
+        d = {}  # level index to that level's node list
+        for i in range(len(levels)-1, -1, -1):
+            nodes = [x for x in levels[i].split("_") if x]
+            for j in range(len(nodes)):
+                if nodes[j] == "n":
+                    nodes[j] = None
+                else:
+                    nodes[j] = TreeNode(nodes[j])
+                    if i != len(levels) - 1:
+                        nodes[j].left = d[i+1][j * 2]
+                        nodes[j].right = d[i+1][j * 2 + 1]
+            d[i] = nodes
 
-            index = i_order.index(p_order[0])
-            p_left = p_order[1:index + 1]
-            p_right = p_order[index + 1:]
-
-            i_left = i_order[0:index]
-            i_right = i_order[index + 1:]
-
-            res = TreeNode(p_order[0])
-            res.left = construct_tree(p_left, i_left)
-            res.right = construct_tree(p_right, i_right)
-            return res
-
-        return construct_tree(p, i)
+        return d[0][0]
 
 
 t = TreeNode(3)
