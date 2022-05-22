@@ -7,6 +7,9 @@ class TreeNode(object):
 
 class Codec:
 
+    def __init__(self):
+        self.i = 0
+
     def serialize(self, root):
         """Encodes a tree to a single string.
 
@@ -30,31 +33,22 @@ class Codec:
         if not data or data[0] == 'N':
             return None
 
+        self.i = 0
         preorder = data.split("_")
 
-        def helper(i):
-            if preorder[i] == 'N':
-                return [None, i+1]
+        def helper():
+            if self.i >= len(preorder):
+                return None
+            if preorder[self.i] == "N":
+                self.i += 1
+                return None
+            node = TreeNode(preorder[self.i])
+            self.i += 1
+            node.left = helper()
+            node.right = helper()
+            return node
 
-            left, right = [None, len(preorder)], [None, len(preorder)]
-            if i+1 < len(preorder):
-                left = helper(i+1)
-            if left[1] < len(preorder):
-                right = helper(left[1])
-
-            res = TreeNode(preorder[i])
-            res.left, res.right = left[0], right[0]
-
-            return [res, right[1]]
-
-        l = helper(1)
-        r = [None, len(preorder)]
-        if l[1] < len(preorder):
-            r = helper(l[1])
-        node = TreeNode(preorder[0])
-        node.left, node.right = l[0], r[0]
-
-        return node
+        return helper()
 
     def serialize_TLE(self, root):
         """Encodes a tree to a single string.
