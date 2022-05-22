@@ -33,7 +33,7 @@ class Codec:
         preorder = data.split("_")
 
         def helper(i):
-            if data[i] == 'N':
+            if preorder[i] == 'N':
                 return [None, i+1]
 
             left, right = [None, len(preorder)], [None, len(preorder)]
@@ -42,7 +42,7 @@ class Codec:
             if left[1] < len(preorder):
                 right = helper(left[1])
 
-            res = TreeNode(data[i])
+            res = TreeNode(preorder[i])
             res.left, res.right = left[0], right[0]
 
             return [res, right[1]]
@@ -51,7 +51,7 @@ class Codec:
         r = [None, len(preorder)]
         if l[1] < len(preorder):
             r = helper(l[1])
-        node = TreeNode(data[0])
+        node = TreeNode(preorder[0])
         node.left, node.right = l[0], r[0]
 
         return node
@@ -127,20 +127,14 @@ class Codec:
         return d[0][0]
 
 
-def printTree(root):
-    if not root:
-        return
+def printBinaryTree(root):
+    def preorder(root):
+        if not root:
+            return []
 
-    q = [root]
-    while q:
-        res = []
-        for i in range(len(q)):
-            node = q.pop(0)
-            if node:
-                res.append(node.val)
-            else:
-                res.append("n")
-        print(res)
+        return [root.val] + preorder(root.left) + preorder(root.right)
+
+    print(preorder(root))
 
 
 t = TreeNode(3)
@@ -148,4 +142,4 @@ t.left = TreeNode(2)
 t.right = TreeNode(4)
 t.left.left = TreeNode(3)
 #print(Codec().serialize(t))
-printTree(Codec().deserialize(Codec().serialize(t)))
+printBinaryTree(Codec().deserialize(Codec().serialize(t)))
