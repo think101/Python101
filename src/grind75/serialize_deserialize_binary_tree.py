@@ -6,11 +6,61 @@ class TreeNode(object):
 
 
 class Codec:
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        nodes = []
+        q = [root]
+
+        while q:
+            for i in range(len(q)):
+                node = q.pop(0)
+                if not node:
+                    nodes.append("")
+                else:
+                    nodes.append(str(node.val))
+                    q.append(node.left)
+                    q.append(node.right)
+
+        return ",".join(nodes)
+
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+
+        nodes = data.split(",")
+        root = TreeNode(nodes[0])
+        q = [root]
+        nodes.pop(0)
+
+        while q:
+            for i in range(len(q)):
+                node = q.pop(0)
+                left = nodes.pop(0)
+                if left:
+                    node.left = TreeNode(int(left))
+                    q.append(node.left)
+                right = nodes.pop(0)
+                if right:
+                    node.right = TreeNode(int(right))
+                    q.append(node.right)
+
+        return root
+
 
     def __init__(self):
         self.i = 0
 
-    def serialize(self, root):
+    def serialize_v0(self, root):
         """Encodes a tree to a single string.
 
         :type root: TreeNode
@@ -24,7 +74,7 @@ class Codec:
 
         return "_".join(preorder(root))
 
-    def deserialize(self, data):
+    def deserialize_v0(self, data):
         """Decodes your encoded data to tree.
 
         :type data: str
