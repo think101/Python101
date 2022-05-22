@@ -13,6 +13,55 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
+        def preorder(root):
+            if not root:
+                return ["N"]
+
+            return [str(root.val)] + preorder(root.left) + preorder(root.right)
+
+        return "_".join(preorder(root))
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data or data[0] == 'N':
+            return None
+
+        preorder = data.split("_")
+
+        def helper(i):
+            if data[i] == 'N':
+                return [None, i+1]
+
+            left, right = [None, len(preorder)], [None, len(preorder)]
+            if i+1 < len(preorder):
+                left = helper(i+1)
+            if left[1] < len(preorder):
+                right = helper(left[1])
+
+            res = TreeNode(data[i])
+            res.left, res.right = left[0], right[0]
+
+            return [res, right[1]]
+
+        l = helper(1)
+        r = [None, len(preorder)]
+        if l[1] < len(preorder):
+            r = helper(l[1])
+        node = TreeNode(data[0])
+        node.left, node.right = l[0], r[0]
+
+        return node
+
+    def serialize_TLE(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
 
         if not root:
             return ""
@@ -49,7 +98,7 @@ class Codec:
 
         return res
 
-    def deserialize(self, data):
+    def deserialize_TLE(self, data):
         """Decodes your encoded data to tree.
 
         :type data: str
@@ -72,10 +121,26 @@ class Codec:
                     nodes[j] = TreeNode(nodes[j])
                     if i != len(levels) - 1:
                         nodes[j].left = d[i+1][j * 2]
-                        nodes[j].right = d[i+1][j * 2 + 1]
+                        nodes[j]. right = d[i+1][j * 2 + 1]
             d[i] = nodes
 
         return d[0][0]
+
+
+def printTree(root):
+    if not root:
+        return
+
+    q = [root]
+    while q:
+        res = []
+        for i in range(len(q)):
+            node = q.pop(0)
+            if node:
+                res.append(node.val)
+            else:
+                res.append("n")
+        print(res)
 
 
 t = TreeNode(3)
@@ -83,4 +148,4 @@ t.left = TreeNode(2)
 t.right = TreeNode(4)
 t.left.left = TreeNode(3)
 #print(Codec().serialize(t))
-print(Codec().deserialize(Codec().serialize(t)))
+printTree(Codec().deserialize(Codec().serialize(t)))
