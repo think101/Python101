@@ -7,7 +7,7 @@ class Solution:
         freq_s = {}
 
         count, start = 0, -1
-        res = s
+        res = ""
 
         for i in range(len(s)):
             if s[i] not in freq_t:
@@ -23,18 +23,21 @@ class Solution:
                 count += 1
             freq_s[s[i]] = freq_s[s[i]] + 1
 
-            if count == len(t) and i - start + 1 < len(res):
+            if count == len(t) and (not res or i - start + 1 < len(res)):
                 res = s[start:i+1]
 
-            if start > 0 and count == len(t) and s[i] == s[start]:
+            if 0 <= start != i and s[i] == s[start] and freq_s[s[i]] > freq_t[s[i]]:
                 #shift start
-                for j in range(start+1, i):
+                freq_s[s[start]] -= 1
+                for j in range(start+1, i+1):
                     if s[j] not in freq_t:
                         continue
 
-                    if freq_s[s[j]] == freq_t[s[j]]:
-                        if i - j + 1 < len(res):
-                            res = s[j:i+1]
+                    if count == len(t) and not res or i - j + 1 < len(res):
+                        res = s[j:i+1]
+                    start = j
+
+                    if freq_s[s[j]] <= freq_t[s[j]]:
                         break
                     elif freq_s[s[j]] > freq_t[s[j]]:
                         freq_s[s[j]] = freq_s[s[j]] - 1
@@ -45,3 +48,6 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.minWindow("ADOBECODEBANC", "ABC"))
+    print(s.minWindow("bba", "ab"))
+    print(s.minWindow("aaabbaaba", "abbb"))
+
