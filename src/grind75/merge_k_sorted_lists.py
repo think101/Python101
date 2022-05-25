@@ -8,14 +8,13 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        l = len(lists)
 
         dummy = ListNode(0)
         c_node = dummy
 
-        while True:
+        while lists:
             current = -1
-            for i in range(l):
+            for i in range(len(lists)):
                 if lists[i]:
                     if current < 0 or lists[i].val < lists[current].val:
                         current = i
@@ -23,6 +22,10 @@ class Solution:
             if current >= 0:
                 c_node.next = lists[current]
                 lists[current] = lists[current].next
+
+                if not lists[current]:
+                    del lists[current]
+
                 c_node = c_node.next
                 c_node.next = None
             else:
