@@ -1,4 +1,5 @@
 from typing import List, Optional
+from sortedcontainers import SortedDict
 
 
 class ListNode:
@@ -6,8 +7,47 @@ class ListNode:
         self.val = val
         self.next = next
 
+
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        sd = SortedDict()  # node value ot list of nodes
+
+        for n in lists:
+            if n:
+                if n.val not in sd:
+                    sd[n.val] = []
+                sd[n.val].append(n)
+
+        dummy = ListNode(0)
+        current = dummy
+
+        while sd:
+            print("len:" + str(len(sd)))
+            for key in sd:
+                for n in sd[key]:
+                    print_list(n)
+
+            key, node_list = sd.popitem(0)
+            t = node_list.pop(0)
+            current.next = t
+            current = t
+
+            if t.next:
+                if t.next.val not in sd:
+                    sd[t.next.val] = []
+
+                sd[t.next.val].append(t.next)
+
+            current.next = None
+
+            if len(node_list) > 0:
+                if node_list[0].val not in sd:
+                    sd[node_list[0].val] = []
+                sd[node_list[0].val].extend(node_list)
+
+        return dummy.next
+
+    def mergeKLists_TLE(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
 
         dummy = ListNode(0)
         c_node = dummy
@@ -33,21 +73,22 @@ class Solution:
 
         return dummy.next
 
+
 def print_list(node):
     while node:
         print(node.val, end=" ")
         node = node.next
     print()
 
+
 if __name__ == "__main__":
     s = Solution()
     l1 = ListNode(1)
-    l1.next = ListNode(4)
-    l1.next.next = ListNode(5)
+    l1.next = ListNode(2)
+    l1.next.next = ListNode(2)
     l2 = ListNode(1)
-    l2.next = ListNode(3)
-    l2.next.next = ListNode(4)
-    l3 = ListNode(2)
-    l3.next = ListNode(6)
-    l = [l1, l2, l3]
+    l2.next = ListNode(1)
+    l2.next.next = ListNode(2)
+
+    l = [l1, l2]
     print_list(s.mergeKLists(l))
