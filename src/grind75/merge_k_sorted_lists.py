@@ -22,13 +22,13 @@ class Solution:
         current = dummy
 
         while sd:
-            print("len:" + str(len(sd)))
-            for key in sd:
-                for n in sd[key]:
-                    print_list(n)
-
             key, node_list = sd.popitem(0)
+            #node_list = sd.pop(sd.keys()[0])
             t = node_list.pop(0)
+
+            if len(node_list) > 0:
+                sd[node_list[0].val] = node_list
+
             current.next = t
             current = t
 
@@ -39,11 +39,6 @@ class Solution:
                 sd[t.next.val].append(t.next)
 
             current.next = None
-
-            if len(node_list) > 0:
-                if node_list[0].val not in sd:
-                    sd[node_list[0].val] = []
-                sd[node_list[0].val].extend(node_list)
 
         return dummy.next
 
