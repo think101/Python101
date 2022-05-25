@@ -20,8 +20,7 @@ class Solution:
                     if current < 0 or lists[i].val < lists[current].val:
                         current = i
 
-            print(current)
-            if current > 0:
+            if current >= 0:
                 c_node.next = lists[current]
                 lists[current] = lists[current].next
                 c_node = c_node.next
@@ -31,6 +30,11 @@ class Solution:
 
         return dummy.next
 
+def print_list(node):
+    while node:
+        print(node.val, end=" ")
+        node = node.next
+    print()
 
 if __name__ == "__main__":
     s = Solution()
@@ -43,4 +47,4 @@ if __name__ == "__main__":
     l3 = ListNode(2)
     l3.next = ListNode(6)
     l = [l1, l2, l3]
-    print(s.mergeKLists(l))
+    print_list(s.mergeKLists(l))
