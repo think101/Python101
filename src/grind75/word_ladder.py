@@ -4,40 +4,45 @@ from typing import List
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        wordSet = set(wordList)
 
-        def dfs(word, used):
-            used.append(word)
+        if endWord not in wordSet:
+            return 0
 
-            if word == endWord:
-                return used
+        q = [beginWord]
+        step = 1
 
-            for i in range(len(word)):
-                c = word[i]
+        while q:
+            step += 1
 
-                for char in ascii_lowercase:
-                    if char != c:
-                        new_word = ""
-                        if i == 0:
-                            new_word = char + word[1:]
-                        elif i == len(word) - 1:
-                            new_word = word[:len(word) - 1] + char
-                        else:
-                            new_word = word[:i] + char + word[i + 1:]
+            for i in range(len(q)):
+                word = q.pop(0)
 
-                        # print(new_word)
+                for j in range(len(word)):
+                    c = word[j]
 
-                        if new_word in wordList and new_word not in used:
-                            return dfs(new_word, used)
+                    for char in ascii_lowercase:
+                        if char != c:
+                            newWord = ""
+                            if j == 0:
+                                newWord = char + word[1:]
+                            elif j == len(word) - 1:
+                                newWord = word[:len(word) - 1] + char
+                            else:
+                                newWord = word[:j] + char + word[j + 1:]
 
-            return None
+                            if newWord in wordSet:
+                                # print(newWord)
+                                if newWord == endWord:
+                                    return step
 
-        res = dfs(beginWord, [])
-        if res:
-            # print(res)
-            return len(res) - 1
+                                wordSet.remove(newWord)
+                                q.append(newWord)
 
         return 0
 
 
 t = Solution()
+print(t.ladderLength("hot", "dog", ["hot", "dog", "dot"]))
 print(t.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"]))
+print(t.ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log"]))
