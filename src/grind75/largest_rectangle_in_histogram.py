@@ -3,6 +3,27 @@ from typing import List
 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
+        q = [[0, heights[0]]]
+        res = heights[0]
+
+        for i in range(1, len(heights)):
+            ind = i
+            #print(q[:-1])
+            while q and q[len(q)-1][1] > heights[i]:
+                ind, h = q.pop()
+
+                res = max(res, h * (i - ind))
+
+            q.append([ind, heights[i]])
+
+        while q:
+            ind, h = q.pop()
+
+            res = max(res, h * (len(heights) - ind))
+
+        return res
+
+    def largestRectangleArea_MLE(self, heights: List[int]) -> int:
         l = len(heights)
         dip = [[0 for j in range(l)] for i in range(l)]
 
