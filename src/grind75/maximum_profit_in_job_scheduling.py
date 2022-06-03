@@ -3,7 +3,17 @@ from sortedcontainers import SortedDict
 from bisect import bisect
 
 class Solution:
-    def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+
+    def jobScheduling(self, startTime, endTime, profit):
+        jobs = sorted(zip(startTime, endTime, profit), key=lambda v: v[1])
+        dp = [[0, 0]]
+        for s, e, p in jobs:
+            i = bisect(dp, [s + 1]) - 1
+            if dp[i][1] + p > dp[-1][1]:
+                dp.append([e, dp[i][1] + p])
+        return dp[-1][1]
+
+    def jobSchedulin_SLOW(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
         jobs = SortedDict()
         max_end = 0
 
@@ -66,6 +76,6 @@ class Solution:
 
 if __name__ == "__main__":
     s = Solution()
-    # print(s.jobScheduling([1, 2, 3, 3], [3, 4, 5, 6], [50, 10, 40, 70]))
-    # print(s.jobScheduling([1, 2, 3, 4, 6], [3, 5, 10, 6, 9], [20, 20, 100, 70, 60]))
+    print(s.jobScheduling([1, 2, 3, 3], [3, 4, 5, 6], [50, 10, 40, 70]))
+    print(s.jobScheduling([1, 2, 3, 4, 6], [3, 5, 10, 6, 9], [20, 20, 100, 70, 60]))
     print(s.jobScheduling([1, 1, 1], [2, 3, 4], [5, 6, 4]))
