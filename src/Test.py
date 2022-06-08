@@ -4,7 +4,7 @@ import bisect
 def test_bisect():
     print("test_bisect")
     dp = [[2, 0], [3, 10], [6, 20], [99, 30]]
-    i = bisect.bisect(dp, [6])
+    i = bisect.bisect(dp, [6, 20])
     print(i)
     i = bisect.bisect(dp, [7])
     print(i)
