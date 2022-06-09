@@ -15,7 +15,7 @@ class Solution:
             left = bisect(candles, queries[i][0] - 1)
             right = bisect(candles, queries[i][1]) - 1
 
-            if candles[right] - candles[left] <= 1:
+            if left >= len(candles) or right < 0 or candles[right] - candles[left] <= 1:
                 res[i] = 0
                 continue
 
@@ -27,3 +27,4 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.platesBetweenCandles("**|**|***|", [[2, 5], [5, 9]]))
+    print(s.platesBetweenCandles("||*", [[2, 2]]))
