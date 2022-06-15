@@ -5,8 +5,12 @@ class Solution:
     def distributeCookies(self, cookies: List[int], k: int) -> int:
 
         def dfs(cookies, i, sums, res):
+            #print(cookies, i, sums, res)
             if i == len(cookies):
                 res[0] = min(res[0], max(sums))
+                return
+
+            if res[0] < max(sums):
                 return
 
             for j in range(len(sums)):
