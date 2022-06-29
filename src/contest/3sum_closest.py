@@ -11,6 +11,9 @@ class Solution:
 
             while(j < k):
                 t = nums[i] + nums[j] + nums[k]
+                if t == target:
+                    return target
+
                 if abs(t - target) < abs(result - target):
                     result = t
 
