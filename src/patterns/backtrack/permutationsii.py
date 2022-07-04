@@ -8,15 +8,19 @@ class Solution:
 
         nums.sort()
         res = []
-        for i in range(len(nums)):
+        i = 0
+        while i < len(nums):  # since I need to change i while looping, I use while loop instead of for loop
             while i + 1 < len(nums) and nums[i + 1] == nums[i]:
                 i += 1
 
-            perms = self.permuteUnique(nums[:i] + nums[i+1:])
+            perms = self.permuteUnique(nums[:i] + nums[i + 1:])
             for perm in perms:
-                res.append(perm[::].append(nums[i]))
+                res.append(perm + [nums[i]])
+
+            i += 1
 
         return res
+
 
 if __name__ == "__main__":
     s = Solution()
