@@ -11,6 +11,8 @@ class Solution:
                 return [[s]]
 
             current_res = []
+            if s == s[::-1]:
+                current_res.append([s])
             for i in range(1, len(s)):
                 t = s[i:]
                 if len(t) not in d:
@@ -36,4 +38,3 @@ if __name__ == "__main__":
     print(s.partition("ab"))
     print(s.partition("abc"))
     print(s.partition("abcdcc"))
-
