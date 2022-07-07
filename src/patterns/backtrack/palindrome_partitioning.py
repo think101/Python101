@@ -3,31 +3,31 @@ from typing import List
 
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        d = {}  # dict with key as i, and value as the result of s[i:]
+        res = []
+        part = []
 
-        def helper(s):
-            if len(s) == 1:
-                d[len(s)] = [[s]]
-                return [[s]]
+        def dfs(i):
+            if i >= len(s):
+                res.append(part[::])
+                return
 
-            current_res = []
-            if s == s[::-1]:
-                current_res.append([s])
-            for i in range(1, len(s)):
-                t = s[i:]
-                if len(t) not in d:
-                    helper(t)
+            for j in (i, len(s)):
+                if self.isPalin(s, i, j):
+                    part.append(s[i:j+1])
+                    dfs(j+1)
+                    part.pop()
 
-                r = d[len(s) - i]
-                for l in r:
-                    first_s = s[:i]
-                    if first_s == first_s[::-1]:
-                        current_res.append([first_s] + l)
+        dfs(0)
+        return res
 
-            d[len(s)] = current_res
+    def isPalin(self, s, i, j):
+        while i < j:
+            if s[i] != s[j]:
+                return False
 
-        helper(s)
-        return d.get(len(s))
+            i, j = i + 1, j - 1
+
+        return True
 
 
 if __name__ == "__main__":
