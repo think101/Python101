@@ -11,7 +11,7 @@ class Solution:
                 res.append(part[::])
                 return
 
-            for j in (i, len(s)):
+            for j in range(i, len(s)):
                 if self.isPalin(s, i, j):
                     part.append(s[i:j+1])
                     dfs(j+1)
