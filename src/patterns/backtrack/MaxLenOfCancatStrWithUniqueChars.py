@@ -8,7 +8,7 @@ class Solution:
         def dfs(i, curr):
             nonlocal res
             if i == len(arr):
-                return len(res)
+                return
 
             for j in range(i, len(arr)):
                 curr += arr[j]
