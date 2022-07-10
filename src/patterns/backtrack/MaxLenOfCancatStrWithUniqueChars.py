@@ -14,7 +14,7 @@ class Solution:
                 curr += arr[j]
                 if len(set(curr)) == len(curr) and len(curr) > len(res):
                     res = curr
-                    dfs(j+1, curr)
+                dfs(j+1, curr)
                 curr = curr[:-len(arr[j])]
 
         dfs(0, "")
