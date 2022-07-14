@@ -3,65 +3,67 @@ from typing import List
 
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        res = [None for i in range(n)]
+        res = []
         excludes = {}  # key as placement value as list of excluded spaces
 
         def calc_excludes(i, j):
             ex = set()
             # the ith line
             for k in range(n):
-                if [i, k] not in excludes.values():
-                    ex.add([i, k])
+                if (i, k) not in sum(excludes.values(), []):
+                    ex.add((i, k))
 
             # the jth column
             for k in range(n):
-                if[k, j] not in excludes.values():
-                    ex.add([k, j])
+                if (k, j) not in sum(excludes.values(), []):
+                    ex.add((k, j))
 
             # i++ j--  or i-- j++
             a, b = i, j
             while a < n and b >= 0:
-                if[a, b] not in excludes.values():
-                    ex.add([a, b])
+                if (a, b) not in sum(excludes.values(), []):
+                    ex.add((a, b))
                 a += 1
                 b -= 1
 
             a, b = i, j
             while a >= 0 and b < n:
-                if[a, b] not in excludes.values():
-                    ex.add([a, b])
+                if (a, b) not in sum(excludes.values(), []):
+                    ex.add((a, b))
                 a -= 1
                 b += 1
-
 
             # i-- j--  or i++ j++
             a, b = i, j
             while a >= 0 and b >= 0:
-                if[a, b] not in excludes.values():
-                    ex.add([a, b])
+                if (a, b) not in sum(excludes.values(), []):
+                    ex.add((a, b))
                 a -= 1
                 b -= 1
 
             a, b = i, j
             while a < n and b < n:
-                if[a, b] not in excludes.values():
-                    ex.add([a, b])
+                if (a, b) not in sum(excludes.values(), []):
+                    ex.add((a, b))
                 a += 1
                 b += 1
 
-            excludes[(i, j)] = ex
+            excludes[(i, j)] = list(ex)
 
         def dfs(i):
             # find a solution
             if i == n:
+                r = [None for _ in range(n)]
                 for key in excludes:
                     l = ["."] * n
                     l[key[1]] = 'Q'
-                    res[key[0]] = l
-
+                    r[key[0]] = "".join(l)
+                res.append(r)
+                return
 
             for j in range(n):
-                if [i, j] not in excludes.values():
+                #print(i, j, excludes)
+                if (i, j) not in sum(excludes.values(), []):
                     # take [i, j] as queen's placement, add [i,j]'s excluded spaces into excludes
                     calc_excludes(i, j)
                     dfs(i+1)
@@ -69,3 +71,9 @@ class Solution:
 
         dfs(0)
         return res
+
+
+if __name__ == "__main__":
+    s = Solution()
+    print(s.solveNQueens(4))
+
