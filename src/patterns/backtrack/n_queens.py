@@ -8,27 +8,28 @@ class Solution:
 
         def calc_excludes(i, j):
             ex = set()
+            sums = set(sum(excludes.values(), []))
             # the ith line
             for k in range(n):
-                if (i, k) not in sum(excludes.values(), []):
+                if (i, k) not in sums:
                     ex.add((i, k))
 
             # the jth column
             for k in range(n):
-                if (k, j) not in sum(excludes.values(), []):
+                if (k, j) not in sums:
                     ex.add((k, j))
 
             # i++ j--  or i-- j++
             a, b = i, j
             while a < n and b >= 0:
-                if (a, b) not in sum(excludes.values(), []):
+                if (a, b) not in sums:
                     ex.add((a, b))
                 a += 1
                 b -= 1
 
             a, b = i, j
             while a >= 0 and b < n:
-                if (a, b) not in sum(excludes.values(), []):
+                if (a, b) not in sums:
                     ex.add((a, b))
                 a -= 1
                 b += 1
@@ -36,14 +37,14 @@ class Solution:
             # i-- j--  or i++ j++
             a, b = i, j
             while a >= 0 and b >= 0:
-                if (a, b) not in sum(excludes.values(), []):
+                if (a, b) not in sums:
                     ex.add((a, b))
                 a -= 1
                 b -= 1
 
             a, b = i, j
             while a < n and b < n:
-                if (a, b) not in sum(excludes.values(), []):
+                if (a, b) not in sums:
                     ex.add((a, b))
                 a += 1
                 b += 1
@@ -76,4 +77,7 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.solveNQueens(4))
+    print(s.solveNQueens(8))
+    print(s.solveNQueens(9))
+    print(s.solveNQueens(10))
 
