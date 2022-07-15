@@ -78,6 +78,6 @@ if __name__ == "__main__":
     s = Solution()
     print(s.solveNQueens(4))
     print(s.solveNQueens(8))
-    print(s.solveNQueens(9))
-    print(s.solveNQueens(10))
+
+
 
