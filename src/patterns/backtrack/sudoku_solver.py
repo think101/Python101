@@ -6,9 +6,9 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        rows = {}   # numbers used in each row
-        cols = {}   # numbers used in each col
-        subs = {}   # numbers used in each sub box
+        rows = {}  # numbers used in each row
+        cols = {}  # numbers used in each col
+        subs = {}  # numbers used in each sub box
 
         for i in range(9):
             for j in range(9):
@@ -18,14 +18,13 @@ class Solution:
                     if j not in cols:
                         cols[j] = set()
 
-                    a, b = i // 3, j //3
+                    a, b = i // 3, j // 3
                     if (a, b) not in subs:
                         subs[(a, b)] = set()
 
                     rows[i].add(board[i][j])
                     cols[j].add(board[i][j])
-                    subs[(a,b)].add(board[i][j])
-
+                    subs[(a, b)].add(board[i][j])
 
         def backtrack(i, j, rows, cols, subs, board):
             while i < 9:
@@ -40,27 +39,44 @@ class Solution:
                             i += 1
                         continue
 
-                    for k in range(9):
-                        if k in rows[i] or k in cols[j] or k in subs[(i//3, j//3)]:
+                    for k in range(1, 10):
+                        if str(k) in rows[i] or str(k) in cols[j] or str(k) in subs[(i // 3, j // 3)]:
                             continue
 
-                        board[i][j] = k
-                        rows[i].add(k)
-                        cols[j].add(k)
-                        subs[(i//3, j//3)].add(k)
+                        board[i][j] = str(k)
+                        rows[i].add(str(k))
+                        cols[j].add(str(k))
+                        subs[(i // 3, j // 3)].add(str(k))
 
                         if j < 8:
-                            if backtrack(i, j+1, rows, cols, subs, board):
+                            if backtrack(i, j + 1, rows, cols, subs, board):
                                 return True
                         else:
-                            if backtrack(i+1, 0, rows, cols, subs, board):
+                            if backtrack(i + 1, 0, rows, cols, subs, board):
                                 return True
 
                         board[i][j] = '.'
-                        rows[i].remove(k)
-                        cols[j].remove(k)
-                        subs[(i//3, j//3)].remove(k)
+                        rows[i].remove(str(k))
+                        cols[j].remove(str(k))
+                        subs[(i // 3, j // 3)].remove(str(k))
 
                     return False
 
         backtrack(0, 0, rows, cols, subs, board)
+
+
+if __name__ == "__main__":
+    s = Solution()
+    board = [
+        ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+        ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+        [".", "9", "8", ".", ".", ".", ".", "6", "."],
+        ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+        ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+        ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+        [".", "6", ".", ".", ".", ".", "2", "8", "."],
+        [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+        [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+    ]
+    s.solveSudoku(board)
+    print(board)
