@@ -26,7 +26,7 @@ class Solution:
                     cols[j].add(board[i][j])
                     subs[(a, b)].add(board[i][j])
 
-        def backtrack(i, j, rows, cols, subs, board):
+        def backtrack(i, j):
             if i == 9:
                 return True
 
@@ -36,7 +36,7 @@ class Solution:
                 else:
                     i += 1
                     j = 0
-                return backtrack(i, j, rows, cols, subs, board)
+                return backtrack(i, j)
 
             for k in range(1, 10):
                 if str(k) in rows[i] or str(k) in cols[j] or str(k) in subs[(i // 3, j // 3)]:
@@ -48,10 +48,10 @@ class Solution:
                 subs[(i // 3, j // 3)].add(str(k))
 
                 if j < 8:
-                    if backtrack(i, j + 1, rows, cols, subs, board):
+                    if backtrack(i, j + 1):
                         return True
                 else:
-                    if backtrack(i + 1, 0, rows, cols, subs, board):
+                    if backtrack(i + 1, 0):
                         return True
 
                 board[i][j] = '.'
@@ -61,7 +61,7 @@ class Solution:
 
             return False
 
-        return backtrack(0, 0, rows, cols, subs, board)
+        return backtrack(0, 0)
 
 
 if __name__ == "__main__":
