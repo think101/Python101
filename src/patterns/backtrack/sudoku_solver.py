@@ -27,45 +27,41 @@ class Solution:
                     subs[(a, b)].add(board[i][j])
 
         def backtrack(i, j, rows, cols, subs, board):
-            print(i, j)
-            while i < 9:
-                while j < 9:
-                    if i == 9:
-                        print(i, j)
+            if i == 9:
+                return True
+
+            if board[i][j] != '.':
+                if j < 8:
+                    j += 1
+                else:
+                    i += 1
+                    j = 0
+                return backtrack(i, j, rows, cols, subs, board)
+
+            for k in range(1, 10):
+                if str(k) in rows[i] or str(k) in cols[j] or str(k) in subs[(i // 3, j // 3)]:
+                    continue
+
+                board[i][j] = str(k)
+                rows[i].add(str(k))
+                cols[j].add(str(k))
+                subs[(i // 3, j // 3)].add(str(k))
+
+                if j < 8:
+                    if backtrack(i, j + 1, rows, cols, subs, board):
+                        return True
+                else:
+                    if backtrack(i + 1, 0, rows, cols, subs, board):
                         return True
 
-                    if board[i][j] != '.':
-                        if j < 8:
-                            j += 1
-                        else:
-                            i += 1
-                            j = 0
-                        continue
+                board[i][j] = '.'
+                rows[i].remove(str(k))
+                cols[j].remove(str(k))
+                subs[(i // 3, j // 3)].remove(str(k))
 
-                    for k in range(1, 10):
-                        if str(k) in rows[i] or str(k) in cols[j] or str(k) in subs[(i // 3, j // 3)]:
-                            continue
+            return False
 
-                        board[i][j] = str(k)
-                        rows[i].add(str(k))
-                        cols[j].add(str(k))
-                        subs[(i // 3, j // 3)].add(str(k))
-
-                        if j < 8:
-                            if backtrack(i, j + 1, rows, cols, subs, board):
-                                return True
-                        else:
-                            if backtrack(i + 1, 0, rows, cols, subs, board):
-                                return True
-
-                        board[i][j] = '.'
-                        rows[i].remove(str(k))
-                        cols[j].remove(str(k))
-                        subs[(i // 3, j // 3)].remove(str(k))
-
-                    return False
-
-        backtrack(0, 0, rows, cols, subs, board)
+        return backtrack(0, 0, rows, cols, subs, board)
 
 
 if __name__ == "__main__":
