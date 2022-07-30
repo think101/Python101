@@ -24,6 +24,8 @@ class Solution:
 
                 graph[p] = []
 
+            visited.remove(course)
+
             return True
 
         for i in range(numCourses):
@@ -35,7 +37,4 @@ class Solution:
 
 if __name__ == "__main__":
     sol = Solution()
-    print(sol.canFinish(2, [[1, 0]]))
-    print(sol.canFinish(2, [[1, 0], [0, 1]]))
-    print(sol.canFinish(2, [[1, 0], [0, 1], [0, 2]]))
     print(sol.canFinish(8, [[1, 0], [2, 6], [1, 7], [6, 4], [7, 0], [0, 5]]))
