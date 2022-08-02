@@ -3,10 +3,12 @@ from typing import List
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        graph = {}
+        graph = {}    # course to its prereqs
+        r_graph = {}  # course to courses which takes it as prereq
 
         for pre in prerequisites:
             graph.setdefault(pre[0], set()).add(pre[1])
+            r_graph.setdefault(pre[1], set()).add(pre[0])
 
         q = []
         for i in range(numCourses):
@@ -17,14 +19,15 @@ class Solution:
             c = q.pop(0)
 
             delete = []
-            for course in graph:
-                if c in graph[course]:
+            if c in r_graph:
+                for course in r_graph[c]:
                     graph[course].remove(c)
-                if len(graph[course]) == 0:
-                    delete.append(course)
-                    q.append(course)
 
-            [graph.pop(key) for key in delete]
+                    if len(graph[course]) == 0:
+                        delete.append(course)
+                        q.append(course)
+
+                [graph.pop(key) for key in delete]
 
         if len(graph):
             return False
