@@ -17,6 +17,7 @@ class Solution:
 
         while q:
             res += 1
+            # note here no need to create a variable for q size
             for i in range(len(q)):
                 tn = q.pop(0)
                 if not tn.left and not tn.right:
