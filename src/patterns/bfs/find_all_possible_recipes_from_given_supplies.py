@@ -25,9 +25,10 @@ class Solution:
 
                     prereq[r].add(ingre)
                     reverse_prereq[ingre].add(r)
+                    can_create = False
 
-                if can_create:
-                    q.append(r)
+            if can_create:
+                q.append(r)
 
         while q:
             r = q.pop()
@@ -45,4 +46,6 @@ class Solution:
 if __name__ == "__main__":
     sol = Solution()
     print(sol.findAllRecipes(["bread"], [["yeast", "flour"]], ["yeast", "flour", "corn"]))
+    print(sol.findAllRecipes(["bread", "sandwich"], [["yeast", "flour"], ["bread", "meat"]], ["yeast", "flour", "meat"]))
+    print(sol.findAllRecipes(["bread", "sandwich"], [["yeast", "flour"], ["bread", "meat"]], ["yeast", "meat", "corn"]))
 
