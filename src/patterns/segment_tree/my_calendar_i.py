@@ -12,8 +12,8 @@ class MyCalendar:
             return True
 
         bi_left = self.events.bisect_left(start)
-        if (bi_left - 1 >= 0 and start < self.events[self.events.iloc[bi_left - 1]]) \
-                or (bi_left < len(self.events) and end > self.events.iloc[bi_left]):
+        if (bi_left - 1 >= 0 and start < self.events[list(self.events.keys())[bi_left - 1]]) \
+                or (bi_left < len(self.events) and end > list(self.events.keys())[bi_left]):
             return False
 
         self.events[start] = end
