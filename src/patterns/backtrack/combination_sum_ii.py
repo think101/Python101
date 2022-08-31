@@ -4,29 +4,28 @@ from typing import List
 class Solution:
     def combinationSum2(self, c: List[int], target: int) -> List[List[int]]:
         c.sort()
-        res = set()
+        res = []
 
         def dfs(ind, target, visited):
-            if ind >= len(c) or target < 0:
+            if target < 0:
                 return
 
-            if target == c[ind]:
-                res.add(tuple(visited[::] + [c[ind]]))
+            if target == 0:
+                res.append(visited[::])
                 return
 
-            visited.append(c[ind])
-            for i in range(ind+1, len(c)):
-                dfs(i, target - c[ind], visited)
-            visited.pop()
+            prev = -1
+            for i in range(ind, len(c)):
+                if c[i] == prev:
+                    continue
 
-        for i in range(len(c)):
-            if i-1 >= 0 and c[i-1] == c[i]:
-                continue
-            dfs(i, target, [])
+                visited.append(c[i])
+                dfs(i+1, target - c[i], visited)
+                visited.pop()
+                prev = c[i]
 
-        res = [list(t) for t in res]
-
-        return list(res)
+        dfs(0, target, [])
+        return res
 
 
 if __name__ == "__main__":
