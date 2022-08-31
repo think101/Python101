@@ -16,6 +16,8 @@ class Solution:
 
             prev = -1
             for i in range(ind, len(c)):
+                # below is wrong since this will skip elements that are equal to previous element unexpectedly
+                # if i - 1 >= 0 and c[i - 1] == c[i]:
                 if c[i] == prev:
                     continue
 
