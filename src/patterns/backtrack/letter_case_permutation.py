@@ -30,3 +30,6 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.letterCasePermutation("3z4"))
+
+
+# it is important to have the line 16 to do the pop() operation
