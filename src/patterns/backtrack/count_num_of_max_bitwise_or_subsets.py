@@ -8,17 +8,13 @@ class Solution:
         res = []
 
         def backtrack(visited, i):
-            if i == len(nums):
-                return
-
             if len(visited) > 0 and (reduce(lambda x, y: x | y, visited)) == max_bo:
                 res.append(visited[::])
 
-            backtrack(visited, i+1)
-
-            visited.append(nums[i])
-            backtrack(visited, i+1)
-            visited.pop()
+            for j in range(i, len(nums)):
+                visited.append(nums[j])
+                backtrack(visited, j + 1)
+                visited.pop()
 
         backtrack([], 0)
         return len(res)
@@ -27,4 +23,5 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     print(s.countMaxOrSubsets([3, 1]))
+    print(s.countMaxOrSubsets([2, 2, 2]))
 
