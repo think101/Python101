@@ -23,8 +23,8 @@ class Solution:
 
                 if m < cur:
                     for j in range(m + 1, cur + 1):
-                        if j not in q:
-                            q.append(j)
+                        q.append(j)
+                m = cur
 
         return -1
 
