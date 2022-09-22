@@ -3,6 +3,9 @@ from typing import List
 
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+
         if len(gas) == 1:
             return 0 if gas[0] >= cost[0] else -1
 
@@ -17,26 +20,16 @@ class Solution:
 
         for i in range(len(positives)):
             ind = positives[i]
-            cur = [0] * cnt
-            cur[ind] = remains[ind]
+            total = 0
 
-            j = 1
-            while j < cnt:
-                t = (ind + j) % cnt
+            j = ind
+            for j in range(ind, cnt):
+                total += remains[j]
 
-                if t - 1 >= 0:
-                    cur[t] = cur[t - 1] + remains[t]
-                else:
-                    cur[t] = cur[cnt - 1] + remains[t]
-
-                if cur[t] <= 0 and j < cnt - 1:
-                    break
-                elif cur[t] < 0 and j == cnt - 1:
+                if (total <= 0 and j < cnt - 1) or (total < 0 and j == cnt - 1):
                     break
 
-                j += 1
-
-            if j == cnt:
+            if total >= 0 and j == cnt - 1:
                 return positives[i]
 
         return -1
