@@ -6,33 +6,18 @@ class Solution:
         if sum(gas) < sum(cost):
             return -1
 
-        if len(gas) == 1:
-            return 0 if gas[0] >= cost[0] else -1
-
         cnt = len(gas)
-        remains = [0] * cnt
-        positives = []
+        total = 0
+        res = 0
 
         for i in range(cnt):
-            remains[i] = gas[i] - cost[i]
-            if remains[i] > 0:
-                positives.append(i)
+            total += gas[i] - cost[i]
 
-        for i in range(len(positives)):
-            ind = positives[i]
-            total = 0
+            if total < 0:
+                total = 0
+                res = i + 1
 
-            j = ind
-            for j in range(ind, cnt):
-                total += remains[j]
-
-                if (total <= 0 and j < cnt - 1) or (total < 0 and j == cnt - 1):
-                    break
-
-            if total >= 0 and j == cnt - 1:
-                return positives[i]
-
-        return -1
+        return res
 
 
 if __name__ == "__main__":
